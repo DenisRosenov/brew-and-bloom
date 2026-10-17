@@ -1,0 +1,80 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Flavor Notes | Brew & Bloom{% endblock %}
+
+{% block content %}
+<section class="mb-5">
+    <p class="text-uppercase small fw-bold mb-2" style="color: #71845b;">
+        EXPLORE THE FLAVOUR
+    </p>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="page-heading display-5">A world of flavour.</h1>
+            <p class="section-intro fs-5 mt-2">
+                Discover the tasting notes that make every coffee unique.
+            </p>
+        </div>
+
+        <a href="{% url 'catalog:flavor_create' %}" class="btn btn-bloom">
+            + Add flavor
+        </a>
+    </div>
+</section>
+
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-heading h3">Flavor collection</h2>
+        <span class="badge rounded-pill text-bg-light border">
+            {{ flavors|length }} flavor{{ flavors|length|pluralize }}
+        </span>
+    </div>
+
+    {% if flavors %}
+        <div class="row g-4">
+            {% for flavor in flavors %}
+                <div class="col-md-6 col-xl-4">
+                    <article class="bloom-card">
+                        <div class="mb-3" style="font-size: 2.5rem;">🌿</div>
+
+                        <h2 class="h4">{{ flavor.name }}</h2>
+
+                        <p class="text-secondary">
+                            {{ flavor.description|default:"A flavor note waiting to be explored." }}
+                        </p>
+
+                        <p class="mb-3">
+                            <strong>Recipes:</strong> {{ flavor.recipes.count }}
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{% url 'catalog:flavor_update' flavor.pk %}"
+                               class="btn btn-outline-success">
+                                Edit
+                            </a>
+
+                            <a href="{% url 'catalog:flavor_delete' flavor.pk %}"
+                               class="btn btn-outline-danger">
+                                Delete
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div style="font-size: 3rem;">🍫</div>
+            <h2 class="page-heading h3 mt-3">Your flavor collection starts here.</h2>
+            <p class="text-secondary">
+                Add flavor notes to help describe your favorite coffees.
+            </p>
+            <a href="{% url 'catalog:flavor_create' %}" class="btn btn-bloom">
+                Add first flavor
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
+```

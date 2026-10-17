@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Coffee Recipes | Brew & Bloom{% endblock %}
+
+{% block content %}
+<section class="hero-section mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <p class="hero-eyebrow mb-3">
+                YOUR DAILY COFFEE INSPIRATION
+            </p>
+
+            <h1 class="page-heading hero-title">
+                Find your next
+                <span class="hero-highlight">favourite cup.</span>
+            </h1>
+
+            <p class="section-intro hero-description mt-4">
+                Explore thoughtful coffee recipes, discover new brewing
+                methods, and bring a little café magic into your home.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a href="{% url 'recipes:recipe_create' %}"
+                   class="btn btn-bloom">
+                    + Create a recipe
+                </a>
+
+                <a href="{% url 'catalog:coffee_list' %}"
+                   class="btn btn-outline-bloom">
+                    Explore our coffee
+                </a>
+            </div>
+
+            <div class="hero-note mt-4">
+                <span aria-hidden="true">✦</span>
+                Made for slow mornings and better coffee.
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="hero-art">
+                <div class="hero-orbit hero-orbit-one"></div>
+                <div class="hero-orbit hero-orbit-two"></div>
+
+                <div class="hero-coffee-cup" aria-hidden="true">☕</div>
+
+                <div class="hero-art-label">
+                    <span class="hero-art-dot"></span>
+                    A little moment for yourself
+                </div>
+
+                <span class="hero-leaf hero-leaf-one" aria-hidden="true">✿</span>
+                <span class="hero-leaf hero-leaf-two" aria-hidden="true">✦</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="recipe-section">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+        <div>
+            <p class="section-kicker mb-2">THE COLLECTION</p>
+            <h2 class="page-heading h2 mb-2">Explore recipes</h2>
+            <p class="section-intro mb-0">
+                Find inspiration for your next coffee break.
+            </p>
+        </div>
+
+        <span class="recipe-count">
+            {{ recipes|length }}
+            recipe{{ recipes|length|pluralize }}
+        </span>
+    </div>
+
+    {% if recipes %}
+        <div class="row g-4">
+            {% for recipe in recipes %}
+                <div class="col-md-6 col-xl-4">
+                    <article class="bloom-card recipe-card">
+                        <div class="recipe-card-top">
+                            <span class="recipe-method">
+                                {{ recipe.brew_method.name }}
+                            </span>
+                            <span class="recipe-rating">
+                                ★ {{ recipe.rating }}/5
+                            </span>
+                        </div>
+
+                        <h3 class="recipe-title mt-4">
+                            {{ recipe.title }}
+                        </h3>
+
+                        <p class="recipe-coffee mb-3">
+                            <span aria-hidden="true">☕</span>
+                            {{ recipe.coffee.name }}
+                        </p>
+
+                        <div class="recipe-meta">
+                            <span>
+                                <span aria-hidden="true">◷</span>
+                                {{ recipe.preparation_time }} min
+                            </span>
+                        </div>
+
+                        {% with flavors=recipe.flavors.all %}
+                            {% if flavors %}
+                                <div class="recipe-flavors mt-3">
+                                    {% for flavor in flavors %}
+                                        <span class="flavor-pill">
+                                            {{ flavor.name }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+
+                        <div class="recipe-card-footer mt-4">
+                            <a href="{% url 'recipes:recipe_detail' recipe.pk %}"
+                               class="recipe-link">
+                                Discover recipe <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state recipe-empty">
+            <div class="empty-state-icon" aria-hidden="true">🌱</div>
+            <p class="section-kicker mt-3 mb-2">A FRESH BEGINNING</p>
+            <h3 class="page-heading h3">
+                Your collection starts here.
+            </h3>
+            <p class="text-secondary mx-auto empty-state-description">
+                Your first coffee recipe is waiting to be added.
+                Create something delicious and make it part of the collection.
+            </p>
+            <a href="{% url 'recipes:recipe_create' %}"
+               class="btn btn-bloom mt-2">
+                Create the first recipe
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Delete Brewing Method | Brew & Bloom{% endblock %}
+
+{% block content %}
+<section class="form-panel text-center">
+    <div class="mb-3" style="font-size: 3rem;">🗑️</div>
+
+    <h1 class="page-heading h2 mb-3">Delete this brewing method?</h1>
+
+    <p class="text-secondary">
+        Are you sure you want to delete
+        <strong>{{ method.name }}</strong>?
+    </p>
+
+    <p class="text-danger small mb-4">
+        This action cannot be undone.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <button type="submit" class="btn btn-danger">
+                Yes, delete method
+            </button>
+
+            <a href="{% url 'brewing:method_detail' method.pk %}"
+               class="btn btn-outline-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}
+```

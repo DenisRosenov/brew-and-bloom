@@ -1,0 +1,24 @@
+
+<footer class="site-footer mt-auto">
+    <div class="container py-4">
+        <div class="row align-items-center gy-3">
+            <div class="col-md-6">
+                <p class="mb-1 fw-bold">☕ Brew & Bloom</p>
+                <p class="mb-0 small">A little more coffee, a little more joy.</p>
+            </div>
+
+            <div class="col-md-6 text-md-end">
+                <a href="{% url 'recipes:recipe_list' %}">Recipes</a>
+                <span class="mx-2">·</span>
+                <a href="{% url 'catalog:coffee_list' %}">Coffees</a>
+                <span class="mx-2">·</span>
+                <a href="{% url 'brewing:method_list' %}">Brewing</a>
+            </div>
+        </div>
+
+        <hr>
+        <p class="small text-center mb-0">
+            © {% now "Y" %} Brew & Bloom. Made with care.
+        </p>
+    </div>
+</footer>

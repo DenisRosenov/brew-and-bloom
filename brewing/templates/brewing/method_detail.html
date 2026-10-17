@@ -1,0 +1,87 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}{{ method.name }} | Brew & Bloom{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'brewing:method_list' %}" class="text-decoration-none">
+        ← Back to brewing methods
+    </a>
+</div>
+
+<article class="form-panel">
+    <div class="mb-3" style="font-size: 3rem;">🫖</div>
+
+    <p class="text-uppercase small fw-bold mb-2" style="color: #71845b;">
+        BREWING GUIDE
+    </p>
+
+    <h1 class="page-heading display-5 mb-4">{{ method.name }}</h1>
+
+    <section class="mb-4">
+        <h2 class="page-heading h4">About this method</h2>
+        <p>{{ method.description|linebreaks|default:"No description available." }}</p>
+    </section>
+
+    <div class="row g-3 mb-4">
+        <div class="col-sm-6">
+            <div class="bloom-card">
+                <p class="text-secondary mb-1">Recommended temperature</p>
+                <h2 class="page-heading h3">
+                    {{ method.recommended_temperature }}°C
+                </h2>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="bloom-card">
+                <p class="text-secondary mb-1">Recommended brewing time</p>
+                <h2 class="page-heading h3">
+                    {{ method.recommended_brew_time }} seconds
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <section class="mb-4">
+        <h2 class="page-heading h4">Recipes using this method</h2>
+
+        {% for recipe in method.recipes.all %}
+            <div class="border rounded-3 p-3 mb-2">
+                <a href="{% url 'recipes:recipe_detail' recipe.pk %}"
+                   class="fw-semibold">
+                    {{ recipe.title }}
+                </a>
+                <p class="small text-secondary mb-0">
+                    Coffee: {{ recipe.coffee.name }}
+                </p>
+            </div>
+        {% empty %}
+            <p class="text-secondary">
+                No recipes use this method yet.
+            </p>
+        {% endfor %}
+    </section>
+
+    <hr>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'brewing:method_update' method.pk %}"
+           class="btn btn-bloom">
+            Edit method
+        </a>
+
+        <a href="{% url 'brewing:method_delete' method.pk %}"
+           class="btn btn-outline-danger">
+            Delete method
+        </a>
+
+        <a href="{% url 'brewing:method_list' %}"
+           class="btn btn-outline-secondary">
+            All methods
+        </a>
+    </div>
+</article>
+{% endblock %}
+```

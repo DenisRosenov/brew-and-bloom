@@ -1,0 +1,24 @@
+```django
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | Brew & Bloom{% endblock %}
+
+{% block content %}
+<section class="empty-state text-center py-5">
+    <div class="empty-state-icon" aria-hidden="true">☕</div>
+
+    <p class="section-kicker mt-3 mb-2">OOPS! WRONG BREW</p>
+
+    <h1 class="page-heading">This page is missing.</h1>
+
+    <p class="text-secondary mx-auto empty-state-description">
+        Looks like this page has wandered off.
+        Let's get you back to something delicious.
+    </p>
+
+    <a href="{% url 'recipes:recipe_list' %}" class="btn btn-bloom mt-3">
+        Back to home
+    </a>
+</section>
+{% endblock %}
+```

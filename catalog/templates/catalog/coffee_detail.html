@@ -1,0 +1,82 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}{{ coffee.name }} | Brew & Bloom{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'catalog:coffee_list' %}" class="text-decoration-none">
+        ← Back to coffees
+    </a>
+</div>
+
+<article class="form-panel">
+    <div class="mb-3" style="font-size: 3rem;">☕</div>
+
+    <p class="text-uppercase small fw-bold mb-2" style="color: #71845b;">
+        COFFEE SPOTLIGHT
+    </p>
+
+    <h1 class="page-heading display-5 mb-3">{{ coffee.name }}</h1>
+
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <span class="badge rounded-pill text-bg-light border">
+            Origin: {{ coffee.origin }}
+        </span>
+        <span class="badge rounded-pill text-bg-light border">
+            Roast: {{ coffee.get_roast_level_display }}
+        </span>
+    </div>
+
+    <section class="mb-4">
+        <h2 class="page-heading h4">About this coffee</h2>
+        <p>{{ coffee.description|linebreaks }}</p>
+    </section>
+
+    <section class="mb-4">
+        <h2 class="page-heading h4">Price</h2>
+        <p class="fs-5">{{ coffee.price_per_kg }} / kg</p>
+    </section>
+
+    <section class="mb-4">
+        <h2 class="page-heading h4">Recipes using this coffee</h2>
+
+        {% for recipe in coffee.recipes.all %}
+            <div class="border rounded-3 p-3 mb-2">
+                <a href="{% url 'recipes:recipe_detail' recipe.pk %}"
+                   class="fw-semibold">
+                    {{ recipe.title }}
+                </a>
+                <p class="small text-secondary mb-0">
+                    {{ recipe.brew_method.name }} ·
+                    {{ recipe.preparation_time }} min
+                </p>
+            </div>
+        {% empty %}
+            <p class="text-secondary">
+                No recipes use this coffee yet.
+            </p>
+        {% endfor %}
+    </section>
+
+    <hr>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'catalog:coffee_update' coffee.pk %}"
+           class="btn btn-bloom">
+            Edit coffee
+        </a>
+
+        <a href="{% url 'catalog:coffee_delete' coffee.pk %}"
+           class="btn btn-outline-danger">
+            Delete coffee
+        </a>
+
+        <a href="{% url 'catalog:coffee_list' %}"
+           class="btn btn-outline-secondary">
+            All coffees
+        </a>
+    </div>
+</article>
+{% endblock %}
+```
